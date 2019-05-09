@@ -1,5 +1,5 @@
 {
-  "name": "back-end",
+  "name": "personal-back-end",
   "version": "1.0.0",
   "description": "The back end for InstaPro",
   "main": "index.js",
@@ -20,10 +20,10 @@
     "validator": "^10.11.0"
   },
   "keywords": [
-    "node",
+    "jwt",
     "nodejs",
-    "bcrpyt",
-    "assport",
-    "mongodb"
+    "mongodb",
+    "express",
+    "instagram"
   ]
 }
