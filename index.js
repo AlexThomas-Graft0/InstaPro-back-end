@@ -30,13 +30,13 @@ app.use(function(req, res, next) {
 
 mongoose
   // .connect(process.mongoURI)
-  .connect(process.env.mongoURI)
+  .connect(process.env.mongoURI, { useNewUrlParser: true })
   .then(() => console.log("connected to db"))
   .catch(err => console.log(err));
 
-app.use(passport.initialize());
-
+//
 require("./config/passport")(passport);
+// app.use(passport.initialize());
 
 app.use("/api/users", users);
 app.use("/api/posts", posts);

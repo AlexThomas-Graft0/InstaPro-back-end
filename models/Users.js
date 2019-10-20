@@ -23,6 +23,46 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  followers: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      name: {
+        type: String,
+        required: true
+      },
+      avatar: {
+        type: String,
+        required: true
+      },
+      date: {
+        type: Date,
+        default: Date.now()
+      }
+    }
+  ],
+  following: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      name: {
+        type: String,
+        required: true
+      },
+      avatar: {
+        type: String,
+        required: true
+      },
+      date: {
+        type: Date,
+        default: Date.now()
+      }
+    }
+  ],
   date: {
     type: Date,
     default: Date.now()
