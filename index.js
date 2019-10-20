@@ -9,7 +9,7 @@ const passport = require("passport");
 const users = require("./routes/api/users");
 const posts = require("./routes/api/posts");
 const profiles = require("./routes/api/profiles");
-const config = require("./routes/api/config");
+const config = require("./config/config");
 
 const app = express();
 
@@ -30,18 +30,18 @@ app.use(function(req, res, next) {
 
 mongoose
   // .connect(process.mongoURI)
-  .connect(process.env.mongoURI, { useNewUrlParser: true })
+  .connect(config.mongoURI, { useNewUrlParser: true })
   .then(() => console.log("connected to db"))
   .catch(err => console.log(err));
 
 //
 require("./config/passport")(passport);
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
 app.use("/api/users", users);
 app.use("/api/posts", posts);
 app.use("/api/profile", profiles);
-app.use("/api/config", config);
+// app.use("/api/config", config);
 
 app.use(function(req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");

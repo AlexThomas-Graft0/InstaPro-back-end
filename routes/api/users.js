@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-
+const config = require("../../config/config");
 const validateRegistration = require("../../validation/register");
 const validateLogin = require("../../validation/login");
 
@@ -109,7 +109,7 @@ router.post("/login", (req, res) => {
         }; //add other info we want to send back
         jwt.sign(
           payload,
-          process.env.ourSecret,
+          config.ourSecret,
           { expiresIn: 3600000 },
           (err, token) => {
             if (err) throw err;
@@ -140,7 +140,7 @@ router.get(
         }; //add other info we want to send back
         jwt.sign(
           payload,
-          process.env.ourSecret,
+          config.ourSecret,
           { expiresIn: 3600000 },
           (err, token) => {
             if (err) throw err;
@@ -210,14 +210,9 @@ const getCurrentUser = user => {
       }; //add other info we want to send back
       jwt.sign(
         payload,
-        process.env.ourSecret,
+        config.ourSecret,
         { expiresIn: 3600000 },
         (err, token) => {
-          console.log("--------");
-          console.log(err);
-          console.log(user);
-          console.log(token);
-          console.log("--------");
           if (err) reject(err);
           let obj = { success: true, token: "Bearer " + token };
           resolve(obj);
@@ -231,11 +226,10 @@ router.post(
   "/follow/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
     //add user to followers
     User.findById(req.user._id) //find logged in user
       .then(user => {
-        // if (!user.followers) user.followers = [];
-        // if (!user.following) user.following = [];
         if (
           user.following.filter(
             follower => follower.user.toString() === req.params.id //if followee is in logged in users following
@@ -274,10 +268,10 @@ router.post(
                       .then(user => {
                         getCurrentUser(req.user._id)
                           .then(token => {
-                            console.log("token");
-                            console.log(token);
-                            console.log("token");
-                            res.json(token);
+                            res
+                              .status(200)
+                              .status(200)
+                              .json(token);
                           })
                           .catch(err => {
                             console.log(err);
@@ -332,10 +326,7 @@ router.post(
                       .then(user => {
                         getCurrentUser(req.user._id)
                           .then(token => {
-                            console.log("token 1");
-                            console.log(token);
-                            console.log("token 1");
-                            res.json(token);
+                            res.status(200).json(token);
                           })
                           .catch(err => {
                             console.log(`fsdfsdfd: ${err}`);
